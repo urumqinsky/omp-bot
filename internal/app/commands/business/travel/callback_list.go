@@ -1,4 +1,4 @@
-package subdomain
+package travel
 
 import (
 	"encoding/json"

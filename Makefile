@@ -1,7 +1,14 @@
-.PHONY: run
-run:
-	go run cmd/bot/main.go
+.PHONY: run build clean
 
-.PHONY: build
+SRCS = cmd/bot/main.go
+
+NAME = bot
+
+run:
+	go run $(SRCS)
+
 build:
-	go build -o bot cmd/bot/main.go
+	go build -o $(NAME) $(SRCS)
+
+clean:
+	rm -f $(NAME)

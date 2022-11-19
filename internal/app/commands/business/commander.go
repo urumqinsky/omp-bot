@@ -1,11 +1,9 @@
-package demo
+package business
 
 import (
-	"log"
-
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/ozonmp/omp-bot/internal/app/commands/demo/subdomain"
 	"github.com/ozonmp/omp-bot/internal/app/path"
+	"log"
 )
 
 type Commander interface {
@@ -18,9 +16,7 @@ type DemoCommander struct {
 	subdomainCommander Commander
 }
 
-func NewDemoCommander(
-	bot *tgbotapi.BotAPI,
-) *DemoCommander {
+func NewDemoCommander(bot *tgbotapi.BotAPI) *DemoCommander {
 	return &DemoCommander{
 		bot: bot,
 		// subdomainCommander
@@ -28,12 +24,18 @@ func NewDemoCommander(
 	}
 }
 
-func (c *DemoCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+func (c *DemoCommander) HandleCallback(
+	callback *tgbotapi.CallbackQuery,
+	callbackPath path.CallbackPath,
+) {
 	switch callbackPath.Subdomain {
 	case "subdomain":
 		c.subdomainCommander.HandleCallback(callback, callbackPath)
 	default:
-		log.Printf("DemoCommander.HandleCallback: unknown subdomain - %s", callbackPath.Subdomain)
+		log.Printf(
+			"DemoCommander.HandleCallback: unknown subdomain - %s",
+			callbackPath.Subdomain,
+		)
 	}
 }
 
@@ -42,6 +44,9 @@ func (c *DemoCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.Co
 	case "subdomain":
 		c.subdomainCommander.HandleCommand(msg, commandPath)
 	default:
-		log.Printf("DemoCommander.HandleCommand: unknown subdomain - %s", commandPath.Subdomain)
+		log.Printf(
+			"DemoCommander.HandleCommand: unknown subdomain - %s",
+			commandPath.Subdomain,
+		)
 	}
 }

@@ -47,9 +47,7 @@ type Router struct {
 	// education
 }
 
-func NewRouter(
-	bot *tgbotapi.BotAPI,
-) *Router {
+func NewRouter(bot *tgbotapi.BotAPI) *Router {
 	return &Router{
 		// bot
 		bot: bot,
@@ -166,7 +164,6 @@ func (c *Router) handleCallback(callback *tgbotapi.CallbackQuery) {
 func (c *Router) handleMessage(msg *tgbotapi.Message) {
 	if !msg.IsCommand() {
 		c.showCommandFormat(msg)
-
 		return
 	}
 
@@ -235,7 +232,10 @@ func (c *Router) handleMessage(msg *tgbotapi.Message) {
 }
 
 func (c *Router) showCommandFormat(inputMessage *tgbotapi.Message) {
-	outputMsg := tgbotapi.NewMessage(inputMessage.Chat.ID, "Command format: /{command}__{domain}__{subdomain}")
+	outputMsg := tgbotapi.NewMessage(
+		inputMessage.Chat.ID,
+		"Command format: /{command}__{domain}__{subdomain}",
+	)
 
 	_, err := c.bot.Send(outputMsg)
 	if err != nil {
